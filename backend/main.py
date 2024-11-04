@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.api.endpoints import image_detection, video_detection, skin_passport
+from backend.api.endpoints import image_detection, video_detection, skin_passport, real_time_detection
 from backend.core.logger import logger
 from backend.models.yolonas import YOLONAS
 
@@ -29,7 +29,7 @@ app.add_middleware(
 app.include_router(image_detection.router, prefix="/api/image")
 app.include_router(video_detection.router, prefix="/api/video")
 app.include_router(skin_passport.router, prefix="/api/skin")
-# app.include_router(video_real_time.router, prefix="/api/realTimeVideo")
+app.include_router(real_time_detection.router, prefix="/api/realTimeVideo")
 
 @app.get("/")
 async def root():
