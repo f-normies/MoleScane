@@ -10,7 +10,7 @@ def remove_file(file_path):
 router = APIRouter()
 
 @router.post("/detect_video")
-async def detect_video(request: Request, file: UploadFile = File(...)):
+async def detect_video(request: Request, background_tasks: BackgroundTasks, file: UploadFile = File(...)):
     logger.info(f"Received file: {file.filename}")
     
     supported_formats = {"video/mp4": "mp4", "video/avi": "avi"}
