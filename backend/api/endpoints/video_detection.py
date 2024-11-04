@@ -36,10 +36,10 @@ async def detect_video(request: Request, background_tasks: BackgroundTasks, file
         with open(output_video_path, "rb") as f:
             video_bytes = f.read()
         
-        background_tasks.add_task(remove_file, input_video_path)
-        background_tasks.add_task(remove_file, output_video_path)
+        # background_tasks.add_task(remove_file, input_video_path)
+        # background_tasks.add_task(remove_file, output_video_path)
         
-        return Response(content=video_bytes, media_type="video/mp4", background=background_tasks)
+        return Response(content=video_bytes, media_type=file.content_type, background=background_tasks)
     
     except Exception as e:
         logger.exception("Error during video detection")
