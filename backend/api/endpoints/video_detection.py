@@ -1,7 +1,11 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException, Request, Response
+from fastapi import APIRouter, UploadFile, File, HTTPException, Request, Response, BackgroundTasks
 import io
 from backend.core.logger import logger
 import os
+
+def remove_file(file_path):
+    os.remove(file_path)
+
 
 router = APIRouter()
 
@@ -32,10 +36,10 @@ async def detect_video(request: Request, file: UploadFile = File(...)):
         with open(output_video_path, "rb") as f:
             video_bytes = f.read()
         
-        os.remove(input_video_path)
-        os.remove(output_video_path)
+        background_tasks.add_task(remove_file, input_video_path)
+        background_tasks.add_task(remove_file, output_video_path)
         
-        return Response(content=video_bytes, media_type="video/mp4")
+        return Response(content=video_bytes, media_type="video/mp4", background=background_tasks)
     
     except Exception as e:
         logger.exception("Error during video detection")
@@ -71,7 +75,7 @@ async def detect_video_fullsize(request: Request, file: UploadFile = File(...)):
         os.remove(input_video_path)
         os.remove(output_video_path)
         
-        return Response(content=video_bytes, media_type="video/mp4")
+        return Response(content=video_bytes, media_type=file.content_type)
     
     except Exception as e:
         logger.exception("Error during video detection")
