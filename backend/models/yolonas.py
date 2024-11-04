@@ -1,7 +1,7 @@
 import torch
 from super_gradients.training import models
-from app.core.config import settings
-from app.core.logger import logger
+from backend.core.config import settings
+from backend.core.logger import logger
 import numpy as np
 import supervision as sv
 from typing import List
