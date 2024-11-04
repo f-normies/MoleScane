@@ -51,3 +51,13 @@ class YOLONAS:
                                          )
         logger.debug("Inference completed")
         return predictions
+
+    def predict_video(self, video: str, skip_image_resizing: bool = False, conf: float = 0.5) -> Predictions:
+        logger.debug("Performing inference...")
+        predictions = self.model.predict(video, 
+                                         skip_image_resizing=skip_image_resizing, 
+                                         conf=conf, 
+                                         iou=0.5
+                                         )
+        logger.debug("Inference completed")
+        return predictions

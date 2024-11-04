@@ -25,7 +25,7 @@ async def detect_video(request: Request, file: UploadFile = File(...)):
             f.write(contents)
         
         model = request.app.state.model
-        predictions = model.predict(input_video_path, conf=0.65)
+        predictions = model.predict_video(input_video_path, conf=0.65)
         predictions.save(output_path=output_video_path, show_confidence=True)
         
         with open(output_video_path, "rb") as f:
@@ -61,7 +61,7 @@ async def detect_video_fullsize(request: Request, file: UploadFile = File(...)):
             f.write(contents)
         
         model = request.app.state.model
-        predictions = model.predict(input_video_path, skip_image_resizing=True, conf=0.65)
+        predictions = model.predict_video(input_video_path, skip_image_resizing=True, conf=0.65)
         predictions.save(output_path=output_video_path, show_confidence=True)
         
         with open(output_video_path, "rb") as f:
