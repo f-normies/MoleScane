@@ -18,6 +18,14 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(image_detection.router, prefix="/api/image")
 app.include_router(video_detection.router, prefix="/api/video")
 app.include_router(skin_passport.router, prefix="/api/skin")
