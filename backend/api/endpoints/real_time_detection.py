@@ -12,13 +12,13 @@ visualizer = Visualizer()
 
 router = APIRouter()
 
-@router.post("/ws/video_real_time")
+@router.websocket("/ws/video_real_time")
 async def detect_video(websocket: WebSocket):
     logger.info(f"Started predicting real-time...")
     await websocket.accept()
     try:
         while True:
-            model = request.app.state.model
+            model = websocket.app.state.model
             
             frame_data = await websocket.receive_bytes()
             np_frame = np.frombuffer(frame_data, dtype=np.uint8)
@@ -31,7 +31,6 @@ async def detect_video(websocket: WebSocket):
             await websocket.send_bytes(buffer.tobytes())
     except Exception as e:
         logger.exception("Error during real-time detection")
-        raise HTTPException(status_code=500, detail=str(e))
     finally:
         logger.info("Stopping predicting real-time...")
         await websocket.close()
