@@ -21,6 +21,8 @@
     wget https://share.xolostxutor.msk.ru/api/shares/gxMzkyN/files/298ee800-66eb-472c-985a-482d9887c591 -O yolonas-s.pth
 
     wget https://share.xolostxutor.msk.ru/api/shares/QxNTg1N/files/2495b663-1c11-4f4b-a318-eb07ca1989db -O yolonas-l.pth
+
+    wget https://share.xolostxutor.msk.ru/api/shares/cxNDI4O/files/75beaaa4-2d89-46ae-9631-2bf8a3b87205 -O rf_abcd_classifier.joblib
     ```
 
 4. Запуск для отладки на локальном сервере
