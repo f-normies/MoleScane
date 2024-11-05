@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     checkpoint_path: str = "models/yolonas-l.pth"
     classes: List = ['AKIEC', 'BCC', 'BKL', 'DF', 'MEL', 'NV', 'VASC']
     num_classes: int = 7
-    
+    abcd_model: str = "models/rf_abcd_classifier.joblib"
 
     class Config:
         env_file = ".env"

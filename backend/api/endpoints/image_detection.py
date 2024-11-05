@@ -14,7 +14,7 @@ router = APIRouter()
 async def detect_image(request: Request, file: UploadFile = File(...)):
     logger.info(f"Received file: {file.filename}")
     
-    if file.content_type not in ["image/jpeg", "image/png"]:
+    if file.content_type not in ["image/jpeg", "image/jpg", "image/png"]:
         logger.error(f"Unsupported file type: {file.content_type}")
         raise HTTPException(status_code=400, detail="Invalid image type. Only JPEG and PNG are supported.")
     
@@ -25,29 +25,10 @@ async def detect_image(request: Request, file: UploadFile = File(...)):
         model = request.app.state.model
         results = model.predict(image)
         
-        annotated_image = visualizer.plot_predictions(image, results)
-        bytes_image = encode_image(annotated_image)
-        
-        logger.info(f"Detection results: {results}")
-        return Response(content=bytes_image, media_type="image/png")
-    except Exception as e:
-        logger.exception("Error during detection")
-        raise HTTPException(status_code=500, detail=str(e))
-
-@router.post("/detect_fullsize")
-async def detect_image_fullsize(request: Request, file: UploadFile = File(...)):
-    logger.info(f"Received file: {file.filename}")
-    
-    if file.content_type not in ["image/jpeg", "image/png"]:
-        logger.error(f"Unsupported file type: {file.content_type}")
-        raise HTTPException(status_code=400, detail="Invalid image type. Only JPEG and PNG are supported.")
-    
-    try:
-        contents = await file.read()
-        image = decode_image(contents)
-        
-        model = request.app.state.model
-        results = model.predict(image, skip_image_resizing=True)
+        # abcd_model = request.app.state.abcd 
+        # abcd_features = abcd_model.extract_features(image)
+        # abcd_results = abcd_model.predict(image)
+        # как обрабатывать результаты?
         
         annotated_image = visualizer.plot_predictions(image, results)
         bytes_image = encode_image(annotated_image)

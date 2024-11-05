@@ -4,11 +4,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.api.endpoints import image_detection, video_detection, skin_passport, real_time_detection
 from backend.core.logger import logger
 from backend.models.yolonas import YOLONAS
+from backend.models.abcd_classifier import ABCDClassifier
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Starting MoleScane API...")
     app.state.model = YOLONAS()
+    app.state.abcd = ABCDClassifier()
     yield
     logger.info("Shutting down MoleScane API...")
 
